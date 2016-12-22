@@ -1,0 +1,21 @@
+{
+  "name": "base",
+  "private": true,
+  "devDependencies": {
+    "fs":"",
+    "gulp": "^3.9.0",
+    "gulp-rename":"",
+    "gulp-clean":"",
+    "gulp-markdown":"",
+    "gulp-copy":"",
+    "gulp-header":"",
+    "gulp-footer":"",
+    "gulp-gh-pages":"",
+    "gulp-htmlmin":""
+  },
+  "scripts": {
+    "postinstall": "gulp server",
+    "prestart": "npm install",
+    "start": "gulp copyToBlog"
+  }
+}
