@@ -16,7 +16,7 @@ var copyPath='../notes/**/*',
     blogPath='../blog-kin/';
 
 // copy文件
-gulp.task('copyFile',['cleanFile','cleanHtml'],function(){
+gulp.task('copyFile',['cleanHtml'],function(){
     return   gulp.src(copyPath)
         // .pipe(copyFile(fileOutPath))
         .pipe(gulp.dest(fileOutPath));
@@ -29,10 +29,11 @@ gulp.task('cleanFile',function(){
 });
 
 // 删除html文件
-gulp.task('cleanHtml',function(){
+gulp.task('cleanHtml',['cleanFile'],function(){
   return gulp.src(htmlPath,{read: false})
       .pipe(clean())
 })
+
 
 // copy图片
 gulp.task('copyImg',['copyFile'],function(){
