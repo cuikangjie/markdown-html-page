@@ -7,7 +7,8 @@ var gulp = require('gulp'),
     footer = require('gulp-footer'),
     fs = require('fs'),
     ghPages = require('gulp-gh-pages'),
-    htmlmin = require('gulp-htmlmin');
+    htmlmin = require('gulp-htmlmin'),
+    copy=require('gulp-file-copy');
 
 var copyPath = '../notes/**/*',
     fileOutPath = 'file/',
@@ -16,21 +17,15 @@ var copyPath = '../notes/**/*',
     blogPath = '../blog-kin/';
 
 // copy文件
-gulp.task('copyFile', ['cleanHtml'], function() {
-    return gulp.src(copyPath)
-    // .pipe(copyFile(fileOutPath))
-        .pipe(gulp.dest(fileOutPath));
+gulp.task('copyFile', ['cleanFile'], function() {
+    return gulp.src([copyPath+'.md',copyPath+'.png'])
+      .pipe(gulp.dest(fileOutPath));
 });
 
 // 删除文件
 gulp.task('cleanFile', function() {
-    return gulp.src(fileOutPath, {read: false}).pipe(clean())
+    return gulp.src([fileOutPath,htmlPath], {read: false}).pipe(clean());
 });
-
-// 删除html文件
-gulp.task('cleanHtml', ['cleanFile'], function() {
-    return gulp.src(htmlPath, {read: false}).pipe(clean())
-})
 
 // copy图片
 gulp.task('copyImg', ['copyFile'], function() {
@@ -47,53 +42,47 @@ var options = {
     minifyJS: true, //压缩页面JS
     minifyCSS: true //压缩页面CSS
 };
-var changeHtml = function() {
-    var headerHtml = '<!DOCTYPE html>' +
-    '<html lang="zh-CN">' +
-    '<head>' +
-    '    <title>笔记 by kin</title>' +
-    '    <link rel="stylesheet" href="https://cuikangjie.github.io/resume/lib/style.css">' +
-    '    <link rel="icon" href="https://cuikangjie.github.io/resume/IMG/title.ico" type="image/x-icon"/>' +
-    '    <!-- <link rel="stylesheet" href="style.css"> -->' +
-    '</head>' +
-    '<body>' +
-    '    <div class="left-main">' +
-    '      <div class="own-img">' +
-    '        <a href="https://cuikangjie.github.io/resume/">' +
-    '          <img src="https://cuikangjie.github.io/resume/IMG/kin.png"/>' +
-    '        </a>' +
-    '      </div>' +
-    '      <div class="own-name">' +
-    '        <a href="https://cuikangjie.github.io/resume/">kin</a>' +
-    '      </div>' +
-    '      <div class="own-main">' +
-    '      </div>' +
-    '      <div class="own-share">' +
-    '        <a href="https://github.com/cuikangjie" target="_blank"><img src="https://cuikangjie.github.io/resume/IMG/github.png"/></a>' +
-    '        <a href="https://cuikangjie.github.io/blog-kin/"><img src="https://cuikangjie.github.io/resume/IMG/biji.png"/></a>' +
-    '        <a href="mailto:cuikangjie_90h@126.com"><img src="https://cuikangjie.github.io/resume/IMG/email.png"/></a>' +
-    '        <a href="http://weibo.com/cuikangjie"><img src="https://cuikangjie.github.io/resume/IMG/weibo.png"/></a>' +
-    '      </div>' +
-    '    </div>' +
-    '    <div class="right-main">';
-    var footerHtml = '</div></body></html>';
-    return gulp.src(fileOutPath + '**/*.md').pipe(markdown()).pipe(header(headerHtml)).pipe(footer(footerHtml)).pipe(htmlmin(options))
-    // .pipe(rename({suffix:'.min'}))
-        .pipe(gulp.dest(htmlPath))
-};
+
+    var headerHtml = '<!DOCTYPE html>'+
+'<html lang="zh-CN">'+
+'<head>'+
+'    <title>笔记 by kin</title>'+
+'    <link rel="stylesheet" href="https://cuikangjie.github.io/blog-kin/lib/css/style.css">'+
+'    <link rel="icon" href="https://cuikangjie.github.io//blog-kin/lib/img/title.ico" type="image/x-icon">'+
+'    <!-- <link rel="stylesheet" href="style.css"> -->'+
+'</head>'+
+'<body>'+
+'    <div class="left-main">'+
+'        <div class="own-img">'+
+'            <a href="https://cuikangjie.github.io/resume/"><img src="https://cuikangjie.github.io//blog-kin/lib/img/kin.png"></a>'+
+'        </div>'+
+'        <div class="own-name"><a href="https://cuikangjie.github.io/resume/">kin</a></div>'+
+'        <div class="own-main" id="num"></div>'+
+'        <div class="own-addr" id="addr"></div>'+
+'        <div class="own-share">'+
+'            <a href="https://github.com/cuikangjie" target="_blank"><img src="https://cuikangjie.github.io//blog-kin/lib/img/github.png"></a>'+
+'            <a href="https://cuikangjie.github.io//blog-kin/"><img src="https://cuikangjie.github.io//blog-kin/lib/img/biji.png"></a>'+
+'            <a href="http://www.cnblogs.com/kin-jie/"><img src="https://cuikangjie.github.io//blog-kin/lib/img/blog.png"></a>'+
+'            <a href="http://www.jianshu.com/users/9fc42ce7c150/latest_articles"><img src="https://cuikangjie.github.io//blog-kin/lib/img/jian.png"></a>'+
+'            <a href="mailto:cuikangjie_90h@126.com"><img src="https://cuikangjie.github.io//blog-kin/lib/img/email.png"></a>'+
+'        </div>'+
+'    </div>'+
+'    <div class="right-main">';
+
+    var footerHtml = '</div>'+
+'    <!-- 获取ip-->'+
+'    <script src="https://pv.sohu.com/cityjson?ie=utf-8"></script>'+
+'    <script src="https://cuikangjie.github.io/blog-kin/lib/js/bmob-min.js"></script>'+
+'    <script src="https://cuikangjie.github.io/blog-kin/lib/js/app.js"></script>'+
+'</body>'+
+'</html>';
+
+
 
 // markdown转换html
-gulp.task('changeHtml', ['copyImg'], function() {
-    // fs.readFile('lib/style.css','utf-8',function(err,data){
-    //   if(err){
-    //       console.log('读取style失败');
-    //   }else{
-    //     console.log('读取style');
-    //     style='<style>'+data+'</style>';
-    //
-    //   }
-    // });
-    changeHtml();
+gulp.task('changeHtml', ['copyFile'], function() {
+  return gulp.src(fileOutPath + '**/*.md').pipe(markdown()).pipe(header(headerHtml)).pipe(footer(footerHtml)).pipe(htmlmin(options))
+        .pipe(gulp.dest(htmlPath));
 });
 
 gulp.task('rename', function() {
@@ -105,7 +94,7 @@ gulp.task('cleanReadme', ['rename'], function() {
 });
 
 gulp.task('copyToBlog', ['cleanReadme'], function() {
-    gulp.src(htmlPath + '**').pipe(gulp.dest(blogPath));
+    gulp.src([htmlPath+'index.html',htmlPath + '**/*.html',htmlPath + '**/*.png']).pipe(gulp.dest(blogPath));
 });
 
 gulp.task('server', ['changeHtml'], function() {});

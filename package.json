@@ -11,7 +11,8 @@
     "gulp-header":"",
     "gulp-footer":"",
     "gulp-gh-pages":"",
-    "gulp-htmlmin":""
+    "gulp-htmlmin":"",
+    "gulp-file-copy":""
   },
   "scripts": {
     "postinstall": "gulp server",
