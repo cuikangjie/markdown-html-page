@@ -10,7 +10,7 @@ var gulp = require('gulp'),
     htmlmin = require('gulp-htmlmin'),
     copy=require('gulp-file-copy');
 
-var copyPath = '../notes/**/*',
+var copyPath = '../resume/resume/**/*',
     fileOutPath = 'file/',
     htmlPath = 'html/',
     imgPath = 'file/**/*.png',
@@ -65,6 +65,7 @@ var options = {
 '            <a href="http://www.cnblogs.com/kin-jie/"><img src="https://cuikangjie.github.io//blog-kin/lib/img/blog.png"></a>'+
 '            <a href="http://www.jianshu.com/users/9fc42ce7c150/latest_articles"><img src="https://cuikangjie.github.io//blog-kin/lib/img/jian.png"></a>'+
 '            <a href="mailto:cuikangjie_90h@126.com"><img src="https://cuikangjie.github.io//blog-kin/lib/img/email.png"></a>'+
+'<a href="javascript:window.print();"><img src="https://cuikangjie.github.io//blog-kin/lib/img/print.png"></a>'+
 '        </div>'+
 '    </div>'+
 '    <div class="right-main">';
