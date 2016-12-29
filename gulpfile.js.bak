@@ -10,7 +10,7 @@ var gulp = require('gulp'),
     htmlmin = require('gulp-htmlmin'),
     copy=require('gulp-file-copy');
 
-var copyPath = '../notes/**/*',
+var copyPath = '../resume/resume/**/*',
     fileOutPath = 'file/',
     htmlPath = 'html/',
     imgPath = 'file/**/*.png',
